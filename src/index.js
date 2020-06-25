@@ -1,23 +1,19 @@
 // Make things work in IE11
 import "url-search-params-polyfill";
 
-const urlParams = new URLSearchParams(window.location.search);
-const myParam = urlParams.get("proxy");
+const params = new URLSearchParams(window.location.search);
+const proxyString = params.get("proxy");
 
-console.log(myParam);
+console.log("Proxy: " + proxyString);
 
 function init() {
-  // root.appendChild(new App({ projectName: PROJECT_NAME }).el);
   function loadModule(url) {
-    const module = document.createElement("script");
-    module.setAttribute("src", url);
-    module.setAttribute("type", "module");
-    document.head.appendChild(module);
+    const scriptTag = document.createElement("script");
+    scriptTag.setAttribute("src", url);
+    document.head.appendChild(scriptTag);
   }
 
-  loadModule(
-    "https://www.abc.net.au/res/sites/news-projects/interactive-virus-treatment/master/index.js"
-  );
+  loadModule(proxyString);
 }
 
 init();
@@ -36,5 +32,5 @@ if (module.hot) {
 }
 
 if (process.env.NODE_ENV === "development") {
-  console.debug(`[${PROJECT_NAME}] public path: ${__webpack_public_path__}`);
+  console.debug(`[public path: ${__webpack_public_path__}`);
 }
