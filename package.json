@@ -1,0 +1,23 @@
+{
+  "name": "interactive-loader",
+  "version": "1.0.0-pre",
+  "description": "A project generated from aunty's basic project template.",
+  "license": "MIT",
+  "private": true,
+  "contributors": [
+    "Joshua Byrd <phocks@gmail.com>"
+  ],
+  "aunty": {
+    "type": "basic"
+  },
+  "scripts": {
+    "start": "aunty serve",
+    "test": "aunty test"
+  },
+  "devDependencies": {
+    "@abcnews/aunty": "^10.9.2"
+  },
+  "dependencies": {
+    "url-search-params-polyfill": "^8.1.0"
+  }
+}
