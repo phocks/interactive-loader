@@ -13,7 +13,7 @@ function init() {
     "[name^='interactivescripts']"
   );
 
-  const scripts = decode(a2o(encodedHashElement.getAttribute("name")).encoded);
+  const decoded = decode(a2o(encodedHashElement.getAttribute("name")).encoded);
 
   function loadModule(url) {
     const scriptTag = document.createElement("script");
@@ -21,7 +21,7 @@ function init() {
     document.head.appendChild(scriptTag);
   }
 
-  for (const script of scripts) {
+  for (const script of decoded.scripts) {
     loadModule(script);
   }
 }
