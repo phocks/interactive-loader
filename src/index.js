@@ -1,5 +1,7 @@
 // Make things work in IE11
 import "url-search-params-polyfill";
+import * as a2o from "@abcnews/alternating-case-to-object";
+import { encode, decode } from "@abcnews/base-36-props";
 
 const params = new URLSearchParams(window.location.search);
 const proxyString = params.get("proxy");
@@ -7,26 +9,43 @@ const proxyString = params.get("proxy");
 console.log("Proxy: " + proxyString);
 
 function init() {
+  const encodedHashElement = document.querySelector(
+    "[name^='interactivescripts']"
+  );
+
+  const scripts = decode(a2o(encodedHashElement.getAttribute("name")).encoded);
+
   function loadModule(url) {
     const scriptTag = document.createElement("script");
     scriptTag.setAttribute("src", url);
     document.head.appendChild(scriptTag);
   }
 
-  loadModule(proxyString);
+  for (const script of scripts) {
+    loadModule(script);
+  }
 }
 
-init();
+if (window.__ODYSSEY__) {
+  init(window.__ODYSSEY__);
+} else {
+  window.addEventListener("odyssey:api", e => {
+    init(e.detail);
+  });
+}
 
 if (module.hot) {
   module.hot.accept("./", () => {
     try {
-      init();
-    } catch (err) {
-      import("./components/ErrorBox").then(exports => {
-        const ErrorBox = exports.default;
-        root.appendChild(new ErrorBox({ error: err }).el);
-      });
+      if (window.__ODYSSEY__) {
+        init(window.__ODYSSEY__);
+      } else {
+        window.addEventListener("odyssey:api", e => {
+          init(e.detail);
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   });
 }
