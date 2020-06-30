@@ -1,12 +1,21 @@
 // Make things work in IE11
-import "url-search-params-polyfill";
+// import "url-search-params-polyfill"
+
+// Imports
 import a2o from "@abcnews/alternating-case-to-object";
 import { decode } from "@abcnews/base-36-props";
+import { attach } from "./lib/attach.js";
 
 // TODO: Possibly add a proxy function
 // const params = new URLSearchParams(window.location.search);
 // const proxyString = params.get("proxy");
 // console.log("Proxy: " + proxyString);
+
+/**
+ * Adds scripts to the page as specified in a base36
+ * hash fragment.
+ * @returns undefined
+ */
 
 const base36Interactives = () => {
   // Look for scripts hash
@@ -17,16 +26,9 @@ const base36Interactives = () => {
   // Decode the base 36 hash
   const decoded = decode(a2o(encodedHashElement.getAttribute("name")).encoded);
 
-  // Function to load script into page
-  function loadModule(url) {
-    const scriptTag = document.createElement("script");
-    scriptTag.setAttribute("src", url);
-    document.head.appendChild(scriptTag);
-  }
-
   // Loop through the scripts
   for (const script of decoded.scripts) {
-    loadModule(script);
+    attach(script);
   }
 };
 
