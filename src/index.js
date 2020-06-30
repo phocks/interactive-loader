@@ -1,55 +1,42 @@
 // Make things work in IE11
 import "url-search-params-polyfill";
 import * as a2o from "@abcnews/alternating-case-to-object";
-import { encode, decode } from "@abcnews/base-36-props";
+import { decode as base36Decode } from "@abcnews/base-36-props";
 
-const params = new URLSearchParams(window.location.search);
-const proxyString = params.get("proxy");
+// TODO: Possibly add a proxy function
+// const params = new URLSearchParams(window.location.search);
+// const proxyString = params.get("proxy");
+// console.log("Proxy: " + proxyString);
 
-console.log("Proxy: " + proxyString);
-
-function init() {
+const init = () => {
+  // Look for scripts hash
   const encodedHashElement = document.querySelector(
     "[name^='interactivescripts']"
   );
 
-  const decoded = decode(a2o(encodedHashElement.getAttribute("name")).encoded);
+  // Decode the base 36 hash
+  const decoded = base36Decode(
+    a2o(encodedHashElement.getAttribute("name")).encoded
+  );
 
+  // Function to load script into page
   function loadModule(url) {
     const scriptTag = document.createElement("script");
     scriptTag.setAttribute("src", url);
     document.head.appendChild(scriptTag);
   }
 
+  // Loop through the scripts
   for (const script of decoded.scripts) {
     loadModule(script);
   }
-}
+};
 
+// Only work once Odyssey loads (due to <a name=> links)
 if (window.__ODYSSEY__) {
   init(window.__ODYSSEY__);
 } else {
   window.addEventListener("odyssey:api", e => {
     init(e.detail);
   });
-}
-
-if (module.hot) {
-  module.hot.accept("./", () => {
-    try {
-      if (window.__ODYSSEY__) {
-        init(window.__ODYSSEY__);
-      } else {
-        window.addEventListener("odyssey:api", e => {
-          init(e.detail);
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  });
-}
-
-if (process.env.NODE_ENV === "development") {
-  console.debug(`[public path: ${__webpack_public_path__}`);
 }
