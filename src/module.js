@@ -20,7 +20,7 @@ import { attach } from "./lib/attach.js";
 const base36Interactives = () => {
   // Look for scripts hash
   const encodedHashElement = document.querySelector(
-    "[name^='interactivescripts']"
+    `[name^='interactivescripts']`
   );
 
   // Decode the base 36 hash
