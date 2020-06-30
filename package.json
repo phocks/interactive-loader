@@ -12,8 +12,11 @@
   },
   "scripts": {
     "start": "aunty serve",
-    "test": "aunty test"
+    "test": "aunty test",
+    "build": "aunty build && cp -r .build/* build"
   },
+  "main": "build/index.js",
+  "module": "src/module.js",
   "devDependencies": {
     "@abcnews/aunty": "^10.9.2"
   },
