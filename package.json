@@ -13,12 +13,17 @@
   "scripts": {
     "start": "aunty serve",
     "test": "aunty test",
-    "build": "aunty build && cp -r .build/* build"
+    "deploy": "aunty build && aunty deploy",
+    "bundle": "rollup -c"
   },
-  "main": "build/index.js",
+  "main": "build/bundle.js",
   "module": "src/module.js",
   "devDependencies": {
-    "@abcnews/aunty": "^10.9.2"
+    "@abcnews/aunty": "^10.9.2",
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "rollup": "^2.18.1",
+    "rollup-plugin-node-polyfills": "^0.2.1"
   },
   "dependencies": {
     "@abcnews/alternating-case-to-object": "^2.0.1",

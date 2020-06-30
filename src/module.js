@@ -1,23 +1,21 @@
 // Make things work in IE11
 import "url-search-params-polyfill";
-import * as a2o from "@abcnews/alternating-case-to-object";
-import { decode as base36Decode } from "@abcnews/base-36-props";
+import a2o from "@abcnews/alternating-case-to-object";
+import { decode } from "@abcnews/base-36-props";
 
 // TODO: Possibly add a proxy function
 // const params = new URLSearchParams(window.location.search);
 // const proxyString = params.get("proxy");
 // console.log("Proxy: " + proxyString);
 
-const decodeAndLoadInteractives = () => {
+const base36Interactives = () => {
   // Look for scripts hash
   const encodedHashElement = document.querySelector(
     "[name^='interactivescripts']"
   );
 
   // Decode the base 36 hash
-  const decoded = base36Decode(
-    a2o(encodedHashElement.getAttribute("name")).encoded
-  );
+  const decoded = decode(a2o(encodedHashElement.getAttribute("name")).encoded);
 
   // Function to load script into page
   function loadModule(url) {
@@ -32,4 +30,4 @@ const decodeAndLoadInteractives = () => {
   }
 };
 
-export default decodeAndLoadInteractives;
+export default base36Interactives;
