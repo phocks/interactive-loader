@@ -14,6 +14,7 @@ import { attach } from "./lib/attach.js";
 /**
  * Adds scripts to the page as specified in a base36
  * hash fragment.
+ * 
  * @returns undefined
  */
 
