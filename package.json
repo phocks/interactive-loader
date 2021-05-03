@@ -31,6 +31,6 @@
 		"@abcnews/base-36-props": "^1.1.0",
 		"@abcnews/hash-scripts-loader": "^1.0.6",
 		"browser-es-module-loader": "^0.4.1",
-		"url-search-params-polyfill": "^8.1.0"
+		"url-search-params-polyfill": "^8.1.1"
 	}
 }
